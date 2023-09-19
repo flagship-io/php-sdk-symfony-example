@@ -1,0 +1,36 @@
+{# Extend the base layout #}
+{% extends 'base.html.twig' %}
+
+{# Set the title of the page #}
+{% block title %}Hello HomePageController!{% endblock %}
+
+{# Define the body content of the page #}
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+        {# Display a greeting message with the controller name #}
+        <h1>Hello {{ controller_name }}! ✅</h1>
+        Flags:
+        <ul>
+            {# Display the flag value and metadata #}
+            <li> myFlagKey :<span id="myFlagValue"> </span></li>
+            <li >metaData : <span id="myFlagMetaData"></span> </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{# Define the JavaScript content of the page #}
+{% block javascripts %}
+    {# Call the parent block content #}
+    {{ parent() }}
+
+    {# Initialize the constant `initialFlagsData` in JavaScript to set fsVisitorFlags #}
+    <script> const initialFlagsData = {{ fsVisitorFlags|raw }}</script>
+
+    {# Include the JS script where the Flagship JS SDK is initialized #}
+    {{ encore_entry_script_tags('boostrapFlagship') }}
+{% endblock %}

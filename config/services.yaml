@@ -20,5 +20,9 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\Service\FsService:
+        arguments:
+            $fsEnvId: '%env(string:FS_ENV_ID)%'
+            $fsApiKey: '%env(string:FS_API_KEY)%'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
