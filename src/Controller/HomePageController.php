@@ -21,7 +21,7 @@ class HomePageController extends AbstractController
         // Get the visitor instance from the FsService
         $visitor = $fsService->getVisitor();
 
-        // Do your staff with visitor instance
+        // Do other things with visitor instance if needed
 
         // Render the 'home_page/index.html.twig' template with the specified parameters
         $response = $this->render('home_page/index.html.twig', [

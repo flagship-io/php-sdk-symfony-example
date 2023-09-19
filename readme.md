@@ -21,9 +21,9 @@ symfony server:start
 
 ## Implementation
 
-First we have created the service `FsService` in `src\Service`. This service has the method 
+We first created the service `FsService` in `src\Service`. This service has the method 
 `getVisitor` which will initialize the SDK, create a visitor instance, fetch flags then 
-return the visitor who has created.
+return the newly created visitor.
 
 ```php
 <?php
@@ -86,7 +86,7 @@ In `config/service.yaml` config, we set envID and apiKey as argument of `FsServi
 ```
 
 Now we can use the `FsService` in the controller `src/Controller/HomePageController`, get the visitor instance
-, do our other staff with it if needed then call `getFlagsDto()` method to get visitor flags to pass them to `Flagship Javascript SDK`
+, do other things with it if needed, then call `getFlagsDto()` method to get visitor flags to pass them to `Flagship Javascript SDK`
 
 ```php
 <?php
@@ -112,7 +112,7 @@ class HomePageController extends AbstractController
         // Get the visitor instance from the FsService
         $visitor = $fsService->getVisitor();
 
-        // Do your staff with visitor instance
+        // Do other stuff with visitor instance if needed
 
         // Render the 'home_page/index.html.twig' template with the specified parameters
         $response = $this->render('home_page/index.html.twig', [
@@ -235,4 +235,33 @@ window.addEventListener('load', ()=>{
 
 })
 
+```
+
+We create an event subscriber to event `Kernel:terminate` to send batch and send collected hits  
+
+```php
+<?php
+
+namespace App\EventListener;
+
+use Flagship\Flagship;
+use Symfony\Component\HttpKernel\Event\TerminateEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
+
+class KernelTerminateListener implements EventSubscriberInterface
+{
+    public function onKernelTerminate(TerminateEvent $event): void
+    {
+        //Batch and send collected hits 
+        Flagship::close();
+    }
+
+    public static function getSubscribedEvents(): array
+    {
+        return  [
+            KernelEvents::TERMINATE => [ 'onKernelTerminate']
+        ];
+    }
+}
 ```
