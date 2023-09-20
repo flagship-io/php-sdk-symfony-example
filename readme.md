@@ -12,6 +12,11 @@ Javascript package
 ```bash 
  yarn install
 ```
+Build the bundle
+
+```bash 
+ yarn dev
+```
 
 Start the app
 
@@ -237,7 +242,7 @@ window.addEventListener('load', ()=>{
 
 ```
 
-We create an event subscriber to event `Kernel:terminate` to send batch and send collected hits  
+We create an event subscriber to event `Kernel:terminate` to batch and send collected hits  
 
 ```php
 <?php
